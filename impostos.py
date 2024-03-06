@@ -31,10 +31,9 @@ def calcular_impostos():
     imposto = 0
     valor_bruto = 0
     try:
-        copia = float(valor_entry.get())
-        valor = 0 #Colocar um formatador de valor aqui dps
+        valor = float(valor_entry.get().replace(',', '.').replace(' ', ''))
         valor_bruto += valor
-        titulo_retencoes.config(text=(f"Valor Bruto: {valor_bruto}"))
+        titulo_retencoes.config(text=(f"Valor Bruto: R$ {valor_bruto:.2f}"))
     except:
         print("Nenhum valor Adicionado")
     
@@ -42,9 +41,8 @@ def calcular_impostos():
         iss = 0
         valor_iss = float(iss_entry.get())
         iss += valor_iss
-        print(f'ISS: {iss}')
         irrf_checkbox.config(text="IRRF - 1%")
-        labeliss.config(text=(f"Valor ISS: {iss}"))
+        labeliss.config(text=(f"Valor ISS: R$ {iss:.2f}"))
     except:
         print("Não Exite retenção de ISS")
     
@@ -54,7 +52,7 @@ def calcular_impostos():
         inss += valor_inss
         print(f'INSS: {inss}')
         irrf_checkbox.config(text="IRRF - 1%")
-        labelinss.config(text=(f"Valor INSS: {inss}"))
+        labelinss.config(text=(f"Valor INSS: R$ {inss:.2f}"))
     except:
         print("Não existe retenção de INSS")
     
@@ -62,32 +60,32 @@ def calcular_impostos():
         if iss != 0 or inss != 0:
             irrf = valor_bruto / 100
             imposto += irrf
-            labelirrf.config(text=(f"Valor IRRF: {irrf}"))
+            labelirrf.config(text=(f"Valor IRRF: R$ {irrf:.2f}"))
         else:
             irrf = (valor_bruto * 1.5) / 100
             imposto += irrf
-            labelirrf.config(text=(f"Valor IRRF: {irrf}"))
+            labelirrf.config(text=(f"Valor IRRF: R$ {irrf:.2f}"))
             
     if pis_var.get() == 1:
         pis = (valor_bruto * 0.65) / 100
         imposto += pis
-        labelpis.config(text=(f"Valor PIS: {pis}"))
+        labelpis.config(text=(f"Valor PIS: R$ {pis:.2f}"))
         
     if cofins_var.get():
         cofins = (valor_bruto * 3) / 100
         imposto += cofins
-        labelcofins.config(text=(f"Valor COFINS: {cofins}"))
+        labelcofins.config(text=(f"Valor COFINS: R$ {cofins:.2f}"))
         
     if csll_var.get():
         csll = valor_bruto / 100   
         imposto  += csll
-        labelcsll.config(text=(f"Valor CSLL: {csll}"))
+        labelcsll.config(text=(f"Valor CSLL: R$ {csll:.2f}"))
         
     imposto += iss + inss
-    label_impostos.config(text=(f"Valor Impostos: {imposto}"))
+    label_impostos.config(text=(f"Valor Impostos: R$ {imposto:.2f}"))
     conta = valor_bruto - imposto
     valor_liquido = round(conta, 2)
-    label_liquido.config(text=(f"Valor Liquido: {valor_liquido}"))
+    label_liquido.config(text=(f"Valor Liquido: R$ {valor_liquido:.2f}"))
     
     
 
@@ -98,14 +96,14 @@ root.title('Calculadora de impostos')
 screen_w = root.winfo_screenwidth()
 screen_h = root.winfo_screenheight()
 
-window_w = 700
+window_w = 800
 window_h = 250
 center_x = int(screen_w/2 - window_w/2)
 center_y = int(screen_h/2 - window_h/2)
 
 root.geometry(f'{window_w}x{window_h}+{center_x}+{center_y}')
 root.resizable(False, False)
-# root.attributes('-alpha', 0.9)
+root.attributes('-alpha', 0.9)
 
 irrf_var = tk.DoubleVar()
 pis_var = tk.DoubleVar()
